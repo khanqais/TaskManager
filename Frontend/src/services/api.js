@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_BACKEND_URL ;
 
-// Create axios instance
+
 const api = axios.create({
   baseURL: API_BASE,
   headers: {
@@ -10,7 +10,7 @@ const api = axios.create({
   },
 });
 
-// Add token to requests if available
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -19,13 +19,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Auth API calls
+
 export const authAPI = {
   login: (credentials) => api.post('/login', credentials),
   register: (userData) => api.post('/register', userData),
 };
 
-// Task API calls
+
 export const taskAPI = {
   getAllTasks: () => api.get('/getTask'),
   createTask: (taskData) => api.post('/create', taskData),
